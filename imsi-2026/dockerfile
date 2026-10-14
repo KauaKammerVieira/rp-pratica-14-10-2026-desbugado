@@ -1,0 +1,27 @@
+FROM node:24-alpine AS frontend
+
+WORKDIR /app
+
+COPY frontend/package.json ./
+
+RUN npm install
+
+COPY frontend/ ./app
+
+EXPOSE 8080
+
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "8080"]
+
+FROM node:24-alpine AS backend
+
+WORKDIR /app
+
+COPY backend/package.json ./
+
+RUN npm install
+
+COPY backend/ ./
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
